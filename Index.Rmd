@@ -1,0 +1,940 @@
+---
+title: "Ejercicio de cálculo de probabilidades Poisson"
+author: "Cristopher Emanuell Cervantes Díaz"
+date: "`r Sys.Date()`"
+output: 
+  html_document:
+    toc: TRUE
+    toc_float: TRUE
+    number_sections: TRUE
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(plotly)
+```
+
+# Introducción
+
+En este documento se hacen ejercicios del cálculo de probabilidades con la función Poisson.Se verá cómo calcular probabilidades, probabilidades acumuladas y probabilidades inversas (cuantiles). Veamos cómo calcular probabilidades Poisson.
+
+## Ejemplo de cálculo de distribuciones de probabilidad Poisson
+
+Suponga que se tiene un número promedio $\mu=100$ personas por hora a un sitio web. Calcule Usted la probabilidad Poisson y Poisson acumulada (de menor a mayor) para números de personas que van de $x\in[0,300]$. De manera complementaria, deberá presentar las gráficas de probabilidad correspondientes.
+
+Resolución de los cálculos:
+
+```{r calc1}
+# Se generan los parámetros de entrada:
+mu=100 # Frecuencia promedio por hora de personas
+
+xi=seq(from=0,to=300,by=1) # Se genera eje x
+
+# Se calculan las probabilidades de suceso simples o lo que se conoce como la distribución de probabilidad o gráfica de densidad de probabilidad Poisson:
+prob.Poisson=dpois(xi,lambda=mu)
+
+# Ahora se calcula la función Poisson acumulada de izquierda a derecha (de menor a mayor):
+probAcum.Poisson1=ppois(xi,lambda=mu,lower.tail=TRUE)
+
+# Ahora se calcula la función Poisson acumulada de derecha a izquierda (de mayor a menor):
+probAcum.Poisson2=ppois(xi,lambda=mu,lower.tail=FALSE)
+```
+
+Se hace la gráfica de la función de densidad:
+
+```{r graf1}
+# Se crea la gráfica con la librería ggplot:
+fig1=ggplot()+
+  geom_line(aes(x=xi,y=round(prob.Poisson*100,2)),colour="orange")+
+  geom_point(aes(x=xi,y=round(prob.Poisson*100,2)),colour="orange")+
+  xlab("Número de personas")+
+  ylab("Probabilidad (%)")+
+  ggtitle("Función de probabilidad Poisson")
+# Con la librería plotly se genera la gráfica en formato interactivo:
+ggplotly(fig1)
+```
+
+Ahora se graficarán las probabilidades acumuladas:
+
+```{r fig2}
+xi=seq(from=0,to=300,by=1) # Se genera eje x
+
+# Se crea la gráfica con la librería ggplot:
+fig2=ggplot()+
+  geom_line(aes(x=xi,y=round(prob.Poisson*100,2)),colour="orange")+
+  geom_line(aes(x=xi,y=probAcum.Poisson1*100),colour="blue")+
+  geom_line(aes(x=xi,y=probAcum.Poisson2*100),colour="red")+  
+  geom_vline(xintercept=120,linetype="dotted")+
+  ylab("Probabilidad (%)")+
+  ggtitle("Función de probabilidad Poisson")
+# Con la librería plotly se genera la gráfica en formato interactivo:
+ggplotly(fig2)
+```
+
+# Ejercicios a resolver Ronda 1
+
+## Ejercicio 1
+
+Con una frecuencia promedio de 100 personas por hora, diga Usted las siguientes probabilidades:
+
+1. Que entren exactamente 30 personas en la siguiente hora
+2. Que entren 30 personas o menos en la siguiente hora
+3. Que entren 30 personas o más en la siguiente hora
+
+```{r calc2}
+# Se generan los parámetros de entrada:
+mu=100 # Frecuencia promedio por hora de personas
+
+xi=seq(from=0,to=300,by=1) # Se genera eje x
+
+# Se calculan las probabilidades de suceso simples o lo que se conoce como la distribución de probabilidad o gráfica de densidad de probabilidad Poisson:
+prob.Poisson=dpois(xi,lambda=mu)
+
+# Ahora se calcula la función Poisson acumulada de izquierda a derecha (de menor a mayor):
+probAcum.Poisson1=ppois(xi,lambda=mu,lower.tail=TRUE)
+
+# Ahora se calcula la función Poisson acumulada de derecha a izquierda (de mayor a menor):
+probAcum.Poisson2=ppois(xi,lambda=mu,lower.tail=FALSE)
+```
+```
+
+
+Respuesta 1:
+```{r R1E1}
+mu= 100
+xi= 30
+# Calculamos la probabilidad de que entren exactamente 30 personas
+pi.30=dpois(xi,lambda=mu)
+pi.30*100 
+```
+ 1.402464e-14
+
+Respuesta 2:
+```{r R2E1}
+mu= 100
+xi= 30
+# Calculamos la probabilidad de que entren exactamente 30 personas
+pi.30a=ppois(xi,lambda=mu, lower.tail= TRUE)
+pi.30a*100 
+```
+1.99179e-14
+
+Respuesta 3:
+```{r R3E1}
+mu= 100
+xi= 30
+# Calculamos la probabilidad de que entren exactamente 30 personas
+pi.30b=ppois(xi,lambda=mu, lower.tail= FALSE)
+pi.30b*100 
+```
+100
+
+## Ejercicio 2
+
+Con una frecuencia promedio de 100 personas por hora, diga Usted las siguientes probabilidades:
+
+1. Que entren exactamente 120 personas en la siguiente hora
+2. Que entren 120 personas o menos en la siguiente hora
+3. Que entren 120 personas o más en la siguiente hora
+
+```{r calc3}
+# Se generan los parámetros de entrada:
+mu=100 # Frecuencia promedio por hora de personas
+
+xi2=seq(from=0,to=300,by=1) # Se genera eje x
+
+# Se calculan las probabilidades de suceso simples o lo que se conoce como la distribución de probabilidad o gráfica de densidad de probabilidad Poisson:
+prob.Poisson=dpois(xi2,lambda=mu)
+
+# Ahora se calcula la función Poisson acumulada de izquierda a derecha (de menor a mayor):
+probAcum.Poisson1=ppois(xi2,lambda=mu,lower.tail=TRUE)
+
+# Ahora se calcula la función Poisson acumulada de derecha a izquierda (de mayor a menor):
+probAcum.Poisson2=ppois(xi2,lambda=mu,lower.tail=FALSE)
+```
+
+Respuesta 1:
+```{r R1E2}
+mu= 100
+xi2= 120
+# Calculamos la probabilidad de que entren exactamente 120 personas
+pi.120=dpois(xi2,lambda=mu)
+pi.120*100 
+```
+0.5561065
+
+Respuesta 2:
+```{r R2E2}
+mu= 100
+xi2= 120
+# Calculamos la probabilidad de que entren exactamente 120 personas o menos
+pi.120a=ppois(xi2,lambda=mu,lower.tail=TRUE)
+pi.120a*100 
+```
+97.73307
+
+Respuesta 3:
+```{r R3E2}
+mu= 100
+xi2= 120
+# Calculamos la probabilidad de que entren exactamente 120 personas o más
+pi.120b=ppois(xi2,lambda=mu,lower.tail=FALSE)
+pi.120b*100 
+```
+2.266933
+
+## Ejercicio 3
+
+Con una frecuencia promedio de 60 personas por hora, diga Usted las siguientes probabilidades:
+
+1. Que entren exactamente 50 personas en la siguiente hora
+2. Que entren 50 personas o menos en la siguiente hora
+3. Que entren 50 personas o más en la siguiente hora
+```{r calc4}
+# Se generan los parámetros de entrada:
+mu2=60 # Frecuencia promedio por hora de personas
+
+xi3=seq(from=0,to=300,by=1) # Se genera eje x
+
+# Se calculan las probabilidades de suceso simples o lo que se conoce como la distribución de probabilidad o gráfica de densidad de probabilidad Poisson:
+prob.Poisson=dpois(xi3,lambda=mu2)
+
+# Ahora se calcula la función Poisson acumulada de izquierda a derecha (de menor a mayor):
+probAcum.Poisson1=ppois(xi3,lambda=mu2,lower.tail=TRUE)
+
+# Ahora se calcula la función Poisson acumulada de derecha a izquierda (de mayor a menor):
+probAcum.Poisson2=ppois(xi3,lambda=mu2,lower.tail=FALSE)
+```
+
+Respuesta 1:
+```{r R1E3}
+mu2=60
+xi3= 50
+# Calculamos la probabilidad de que entren exactamente 50 personas
+pi.50=dpois(xi3,lambda=mu2)
+pi.50*100 
+```
+2.32712
+
+Respuesta 2:
+```{r R2E3}
+mu2= 60
+xi3= 50
+# Calculamos la probabilidad de que entren exactamente 50 personas o menos
+pi.50a=ppois(xi3,lambda=mu2,lower.tail=TRUE)
+pi.50a*100 
+```
+10.76779
+
+Respuesta 3:
+```{r R3E3}
+mu2= 60
+xi3= 50
+# Calculamos la probabilidad de que entren exactamente 50 personas o más
+pi.50b=ppois(xi3,lambda=mu2,lower.tail=FALSE)
+pi.50b*100 
+```
+89.23221
+
+## Ejercicio 4
+
+Con una frecuencia promedio de 60 personas por hora, diga Usted las siguientes probabilidades:
+
+1. Que entren exactamente 70 personas en la siguiente hora
+2. Que entren 70 personas o menos en la siguiente hora
+3. Que entren 70 personas o más en la siguiente hora
+```{r calc5}
+# Se generan los parámetros de entrada:
+mu2=60 # Frecuencia promedio por hora de personas
+
+xi4=seq(from=0,to=300,by=1) # Se genera eje x
+
+# Se calculan las probabilidades de suceso simples o lo que se conoce como la distribución de probabilidad o gráfica de densidad de probabilidad Poisson:
+prob.Poisson=dpois(xi4,lambda=mu2)
+
+# Ahora se calcula la función Poisson acumulada de izquierda a derecha (de menor a mayor):
+probAcum.Poisson1=ppois(xi4,lambda=mu2,lower.tail=TRUE)
+
+# Ahora se calcula la función Poisson acumulada de derecha a izquierda (de mayor a menor):
+probAcum.Poisson2=ppois(xi4,lambda=mu2,lower.tail=FALSE)
+```
+
+Respuesta 1:
+```{r R1E4}
+mu2=60
+xi4= 70
+# Calculamos la probabilidad de que entren exactamente 70 personas
+pi.70=dpois(xi4,lambda=mu2)
+pi.70*100 
+```
+2.160298
+
+Respuesta 2:
+```{r R2E4}
+mu2= 60
+xi4= 70
+# Calculamos la probabilidad de que entren exactamente 70 personas o menos
+pi.70a=ppois(xi4,lambda=mu2,lower.tail=TRUE)
+pi.70a*100 
+```
+90.98133
+
+Respuesta 3:
+```{r R3E4}
+mu2= 60
+xi4= 70
+# Calculamos la probabilidad de que entren exactamente 70 personas o más
+pi.70b=ppois(xi4,lambda=mu2,lower.tail=FALSE)
+pi.70b*100 
+```
+9.018667
+
+
+## Ejercicio 5
+
+Con una frecuencia promedio de 5 personas por hora, diga Usted las siguientes probabilidades:
+
+1. Que entren exactamente 7 personas en la siguiente hora
+2. Que entren 7 personas o menos en la siguiente hora
+3. Que entren 7 personas o más en la siguiente hora
+4. Que entren entre 4 y 8 personas en la siguiente hora
+5. Que entren menos de 3 o más de 8 personas en la siguiente hora
+
+```{r calc6}
+# Se generan los parámetros de entrada:
+mu3=5 # Frecuencia promedio por hora de personas
+
+xi5=seq(from=0,to=300,by=1) # Se genera eje x
+
+# Se calculan las probabilidades de suceso simples o lo que se conoce como la distribución de probabilidad o gráfica de densidad de probabilidad Poisson:
+prob.Poisson=dpois(xi5,lambda=mu3)
+
+# Ahora se calcula la función Poisson acumulada de izquierda a derecha (de menor a mayor):
+probAcum.Poisson1=ppois(xi5,lambda=mu3,lower.tail=TRUE)
+
+# Ahora se calcula la función Poisson acumulada de derecha a izquierda (de mayor a menor):
+probAcum.Poisson2=ppois(xi5,lambda=mu3,lower.tail=FALSE)
+```
+
+Respuesta 1:
+```{r R1E5}
+mu3=5
+xi5=7
+# Calculamos la probabilidad de que entren exactamente 7 personas
+pi.7=dpois(xi5,lambda=mu3)
+pi.7*100 
+```
+10.44449
+
+Respuesta 2:
+```{r R2E5}
+mu3=5
+xi5=7
+# Calculamos la probabilidad de que entren exactamente 7 personas o menos
+pi.7a=ppois(xi5,lambda=mu3,lower.tail=TRUE)
+pi.7a*100 
+```
+86.66283
+
+Respuesta 3:
+```{r R3E5}
+mu3=5
+xi5=7
+# Calculamos la probabilidad de que entren exactamente 7 personas o más
+pi.7b=ppois(xi5,lambda=mu3,lower.tail=FALSE)
+pi.7b*100 
+```
+13.33717
+
+Respuesta 4:
+```{r R4E5}
+mu3=5
+xi5a=4
+xi5b=8
+# Calculamos la probabilidad de que entren entre 4 y 8 personas 
+pi.7c1=ppois(xi5a,lambda=mu3,lower.tail=TRUE)
+pi.7c2=ppois(xi5b,lambda=mu3,lower.tail=TRUE)
+pi.7c=pi.7c2-pi.7c1
+pi.7c
+```
+0.4914131
+
+Respuesta 5:
+```{r R5E5}
+mu3=5
+xi5c=3
+xi5d=8
+# Calculamos la probabilidad de que entren menos de 3 y más de 8 personas en la siguiente hora.
+pi.7d1=ppois(xi5c,lambda=mu3,lower.tail=TRUE)
+pi.7d2=1-(ppois(xi5d,lambda=mu3,lower.tail=TRUE))
+pi.7d=pi.7d1+pi.7d2
+pi.7d
+```
+0.3331196
+
+## Ejercicio 6
+
+Con una frecuencia promedio de 25 personas por hora, diga Usted las siguientes probabilidades:
+
+1. Que entren exactamente 13 personas en la siguiente hora
+2. Que entren 13 personas o menos en la siguiente hora
+3. Que entren 13 personas o más en la siguiente hora
+4. Que entren entre 10 y 40 personas en la siguiente hora
+5. Que entren menos de 20 o más de 30 personas en la siguiente hora
+```{r calc7}
+# Se generan los parámetros de entrada:
+mu4=25 # Frecuencia promedio por hora de personas
+
+xi6=seq(from=0,to=300,by=1) # Se genera eje x
+
+# Se calculan las probabilidades de suceso simples o lo que se conoce como la distribución de probabilidad o gráfica de densidad de probabilidad Poisson:
+prob.Poisson=dpois(xi6,lambda=mu4)
+
+# Ahora se calcula la función Poisson acumulada de izquierda a derecha (de menor a mayor):
+probAcum.Poisson1=ppois(xi6,lambda=mu4,lower.tail=TRUE)
+
+# Ahora se calcula la función Poisson acumulada de derecha a izquierda (de mayor a menor):
+probAcum.Poisson2=ppois(xi6,lambda=mu4,lower.tail=FALSE)
+```
+
+Respuesta 1:
+```{r R1E6}
+mu4=25
+xi6=13
+# Calculamos la probabilidad de que entren exactamente 13 personas
+pi.13=dpois(xi6,lambda=mu4)
+pi.13*100 
+```
+0.3323363
+
+Respuesta 2:
+```{r R2E6}
+mu4=25
+xi6=13
+# Calculamos la probabilidad de que entren exactamente 13 personas o menos
+pi.13a=ppois(xi6,lambda=mu4,lower.tail=TRUE)
+pi.13a*100 
+```
+0.6467484
+
+Respuesta 3:
+```{r R3E6}
+mu4=25
+xi6=13
+# Calculamos la probabilidad de que entren exactamente 13 personas o más
+pi.13b=ppois(xi6,lambda=mu4,lower.tail=FALSE)
+pi.13b*100 
+```
+99.35325
+
+Respuesta 4:
+```{r R4E6}
+mu4=25
+xi6a=10
+xi6b=40
+# Calculamos la probabilidad de que entren entre 10 y 40 personas 
+pi.13c1=ppois(xi6a,lambda=mu4,lower.tail=TRUE)
+pi.13c2=ppois(xi6b,lambda=mu4,lower.tail=TRUE)
+pi.13c=pi.13c2-pi.13c1
+pi.13c
+```
+0.9973779
+
+Respuesta 5:
+```{r R5E6}
+mu4=25
+xi6c=20
+xi6d=30
+# Calculamos la probabilidad de que entren menos de 20 y más de 30 personas en la siguiente hora.
+pi.13d1=ppois(xi6c,lambda=mu4,lower.tail=TRUE)
+pi.13d2=1-(ppois(xi6d,lambda=mu4,lower.tail=TRUE))
+pi.13d=pi.13d1+pi.13d2
+pi.13d
+```
+0.3221834
+
+## Ejercicio 7
+
+Con una frecuencia promedio de 40 personas por hora, diga Usted las siguientes probabilidades:
+
+1. Que entren exactamente 3 personas en los siguientes 15 minutos
+2. Que entren 3 personas o menos en los siguientes 15 minutos
+3. Que entren 3 personas o más en los siguientes 15 minutos
+4. Que entren entre 3 y 6 personas en los siguientes 15 minutos
+5. Que entren menos de 3 o más de 6 personas en los siguientes 15 minutos
+```{r calc8}
+# Se generan los parámetros de entrada:
+mu5=10 # Frecuencia promedio de personas cada 15 minutos
+
+xi7=seq(from=0,to=300,by=1) # Se genera eje x
+
+# Se calculan las probabilidades de suceso simples o lo que se conoce como la distribución de probabilidad o gráfica de densidad de probabilidad Poisson:
+prob.Poisson=dpois(xi7,lambda=mu5)
+
+# Ahora se calcula la función Poisson acumulada de izquierda a derecha (de menor a mayor):
+probAcum.Poisson1=ppois(xi7,lambda=mu5,lower.tail=TRUE)
+
+# Ahora se calcula la función Poisson acumulada de derecha a izquierda (de mayor a menor):
+probAcum.Poisson2=ppois(xi7,lambda=mu5,lower.tail=FALSE)
+```
+
+Respuesta 1:
+```{r R1E7}
+mu5=10
+xi7=3
+# Calculamos la probabilidad de que entren exactamente 3 personas en los siguientes 15 min.
+pi.3=dpois(xi7,lambda=mu5)
+pi.3*100 
+```
+0.7566655
+
+Respuesta 2:
+```{r R2E7}
+mu5=10
+xi7=3
+# Calculamos la probabilidad de que entren exactamente 3 personas o menos en los siguientes 15 minutos
+pi.3a=ppois(xi7,lambda=mu5,lower.tail=TRUE)
+pi.3a*100 
+```
+1.033605
+
+Respuesta 3:
+```{r R3E7}
+mu5=10
+xi7=3
+# Calculamos la probabilidad de que entren exactamente 3 personas o más en los siguientes 15 minutos
+pi.3b=ppois(xi7,lambda=mu5,lower.tail=FALSE)
+pi.3*100 
+```
+0.7566655
+
+Respuesta 4:
+```{r R4E7}
+mu5=10
+xi7a=3
+xi7b=6
+# Calculamos la probabilidad de que entren entre 3 y 6 personas 
+pi.3c1=ppois(xi7a,lambda=mu5,lower.tail=TRUE)
+pi.3c2=ppois(xi7b,lambda=mu5,lower.tail=TRUE)
+pi.3c=pi.3c2-pi.3c1
+pi.3c
+```
+0.1198054
+
+Respuesta 5:
+```{r R5E7}
+mu5=10
+xi7c=3
+xi7d=6
+# Calculamos la probabilidad de que entren menos de 3 y más de 6 personas en los siguientes 15 min.
+pi.3d1=ppois(xi7c,lambda=mu5,lower.tail=TRUE)
+pi.3d2=1-(ppois(xi7d,lambda=mu5,lower.tail=TRUE))
+pi.3d=pi.3d1+pi.3d2
+pi.3d
+```
+0.8801946
+
+
+## Ejercicio 8
+
+Con una frecuencia promedio de 40 personas por hora, diga Usted las siguientes probabilidades:
+
+1. Que entren exactamente 3 personas en los siguientes 30 minutos
+2. Que entren 3 personas o menos en los siguientes 30 minutos
+3. Que entren 3 personas o más en los siguientes 30 minutos
+4. Que entren entre 3 y 6 personas en los siguientes 30 minutos
+5. Que entren menos de 3 o más de 6 personas en los siguientes 30 minutos
+```{r calc9}
+# Se generan los parámetros de entrada:
+mu6=20 # Frecuencia promedio de personas cada 30 minutos
+
+xi8=seq(from=0,to=300,by=1) # Se genera eje x
+
+# Se calculan las probabilidades de suceso simples o lo que se conoce como la distribución de probabilidad o gráfica de densidad de probabilidad Poisson:
+prob.Poisson=dpois(xi8,lambda=mu6)
+
+# Ahora se calcula la función Poisson acumulada de izquierda a derecha (de menor a mayor):
+probAcum.Poisson1=ppois(xi8,lambda=mu6,lower.tail=TRUE)
+
+# Ahora se calcula la función Poisson acumulada de derecha a izquierda (de mayor a menor):
+probAcum.Poisson2=ppois(xi8,lambda=mu6,lower.tail=FALSE)
+```
+
+Respuesta 1:
+```{r R1E8}
+mu6=20
+xi8=3
+# Calculamos la probabilidad de que entren exactamente 3 personas en los siguientes 30 min.
+pi.4=dpois(xi8,lambda=mu6)
+pi.4*100 
+```
+0.0002748205
+
+Respuesta 2:
+```{r R2E8}
+mu6=20
+xi8=3
+# Calculamos la probabilidad de que entren exactamente 3 personas o menos en los siguientes 30 minutos
+pi.4a=ppois(xi8,lambda=mu6,lower.tail=TRUE)
+pi.4a*100 
+```
+0.000320372
+
+Respuesta 3:
+```{r R3E8}
+mu6=20
+xi8=3
+# Calculamos la probabilidad de que entren exactamente 3 personas o más en los siguientes 30 minutos
+pi.4b=ppois(xi8,lambda=mu6,lower.tail=FALSE)
+pi.4b*100 
+```
+99.99968
+
+Respuesta 4:
+```{r R4E8}
+mu6=20
+xi8a=3
+xi8b=6
+# Calculamos la probabilidad de que entren entre 3 y 6 personas enlos siguientes 30 min.
+pi.4c1=ppois(xi8a,lambda=mu6,lower.tail=TRUE)
+pi.4c2=ppois(xi8b,lambda=mu6,lower.tail=TRUE)
+pi.4c=pi.4c2-pi.4c1
+pi.4c
+```
+0.0002519188
+
+Respuesta 5:
+```{r R5E8}
+mu6=20
+xi8c=3
+xi8d=6
+# Calculamos la probabilidad de que entren menos de 3 y más de 6 personas en los siguientes 30 min.
+pi.4d1=ppois(xi8c,lambda=mu6,lower.tail=TRUE)
+pi.4d2=1-(ppois(xi8d,lambda=mu6,lower.tail=TRUE))
+pi.4d=pi.4d1+pi.4d2
+pi.4d
+```
+0.9997481
+
+
+
+## Ejercicio 9
+
+Con una frecuencia promedio de 40 personas por hora, diga Usted las siguientes probabilidades:
+
+1. Que entren exactamente 300 personas en 1 día
+2. Que entren 300 personas o menos en 1 día
+3. Que entren 300 personas o más en 1 día
+4. Que entren entre 120 y 200 personas en 1 día
+5. Que entren menos de 180 o más de 420 personas en 1 día
+```{r calc10}
+# Se generan los parámetros de entrada:
+mu7=960 # Frecuencia promedio de personas por día
+
+xi9=seq(from=0,to=1100,by=1) # Se genera eje x
+
+# Se calculan las probabilidades de suceso simples o lo que se conoce como la distribución de probabilidad o gráfica de densidad de probabilidad Poisson:
+prob.Poisson=dpois(xi9,lambda=mu7)
+
+# Ahora se calcula la función Poisson acumulada de izquierda a derecha (de menor a mayor):
+probAcum.Poisson1=ppois(xi9,lambda=mu7,lower.tail=TRUE)
+
+# Ahora se calcula la función Poisson acumulada de derecha a izquierda (de mayor a menor):
+probAcum.Poisson2=ppois(xi9,lambda=mu7,lower.tail=FALSE)
+```
+
+Respuesta 1:
+```{r R1E9}
+mu7=960
+xi9=300
+# Calculamos la probabilidad de que entren exactamente 300 personas en 1 dia (24 hrs).
+pi.300=dpois(xi9,lambda=mu7)
+pi.300*100 
+```
+1.874408e-135
+
+Respuesta 2:
+```{r R2E9}
+mu7=960
+xi9=300
+# Calculamos la probabilidad de que entren exactamente 300 personas o menos en un dia (24 horas)
+pi.300a=ppois(xi9,lambda=mu7,lower.tail=TRUE)
+pi.300a*100 
+```
+2.724544e-135
+
+Respuesta 3:
+```{r R3E9}
+mu7=960
+xi9=300
+# Calculamos la probabilidad de que entren exactamente 300 personas o más en un dia (24 horas)
+pi.300b=ppois(xi9,lambda=mu7,lower.tail=FALSE)
+pi.300b*100 
+```
+100
+
+Respuesta 4:
+```{r R4E9}
+mu7=960
+xi9a=120
+xi9b=200
+# Calculamos la probabilidad de que entren entre 120 y 200 personas en un día (24 horas)
+pi.300c1=ppois(xi9a,lambda=mu7,lower.tail=TRUE)
+pi.300c2=ppois(xi9b,lambda=mu7,lower.tail=TRUE)
+pi.300c=pi.300c2-pi.300c1
+pi.300c
+```
+5.444564e-196
+
+Respuesta 5:
+```{r R5E9}
+mu7=960
+xi9c=180
+xi9d=420
+# Calculamos la probabilidad de que entren menos de 180 y más de 420 personas en un día (24 horas)
+pi.300d1=ppois(xi9c,lambda=mu7,lower.tail=TRUE)
+pi.300d2=1-(ppois(xi9d,lambda=mu7,lower.tail=TRUE))
+pi.300d=pi.300d1+pi.300d2
+pi.300d
+```
+1
+
+## Ejercicio 10
+
+Con una frecuencia promedio de 100 personas por hora, diga Usted las siguientes probabilidades:
+
+1. Que entren exactamente 300 personas en 1 día
+2. Que entren 300 personas o menos en 1 día
+3. Que entren 300 personas o más en 1 día
+4. Que entren entre 120 y 200 personas en 1 día
+5. Que entren menos de 180 o más de 420 personas en 1 día
+```{r calc11}
+# Se generan los parámetros de entrada:
+mu8=2400 # Frecuencia promedio de personas por día
+
+xi10=seq(from=0,to=2500,by=1) # Se genera eje x
+
+# Se calculan las probabilidades de suceso simples o lo que se conoce como la distribución de probabilidad o gráfica de densidad de probabilidad Poisson:
+prob.Poisson=dpois(xi10,lambda=mu8)
+
+# Ahora se calcula la función Poisson acumulada de izquierda a derecha (de menor a mayor):
+probAcum.Poisson1=ppois(xi10,lambda=mu8,lower.tail=TRUE)
+
+# Ahora se calcula la función Poisson acumulada de derecha a izquierda (de mayor a menor):
+probAcum.Poisson2=ppois(xi10,lambda=mu8,lower.tail=FALSE)
+```
+
+Respuesta 1:
+```{r R1E10}
+mu8=2400
+xi10=300
+# Calculamos la probabilidad de que entren exactamente 300 personas en 1 dia (24 hrs).
+pi.2400=dpois(xi10,lambda=mu8)
+pi.2400*100 
+```
+0
+
+Respuesta 2:
+```{r R2E10}
+mu8=2400
+xi10=300
+# Calculamos la probabilidad de que entren exactamente 300 personas o menos en un dia (24 horas)
+pi.2400a=ppois(xi10,lambda=mu8,lower.tail=TRUE)
+pi.2400a*100 
+```
+0
+
+Respuesta 3:
+```{r R3E10}
+mu8=2400
+xi10=300
+# Calculamos la probabilidad de que entren exactamente 300 personas o más en un dia (24 horas)
+pi.2400b=ppois(xi10,lambda=mu8,lower.tail=FALSE)
+pi.2400b*100 
+```
+100
+
+Respuesta 4:
+```{r R4E10}
+mu8=2400
+xi10a=120
+xi10b=200
+# Calculamos la probabilidad de que entren entre 120 y 200 personas en un día (24 horas)
+pi.2400c1=ppois(xi10a,lambda=mu8,lower.tail=TRUE)
+pi.2400c2=ppois(xi10b,lambda=mu8,lower.tail=TRUE)
+pi.2400c=pi.2400c2-pi.2400c1
+pi.2400c
+```
+0
+
+Respuesta 5:
+```{r R5E10}
+mu8=2400
+xi10c=180
+xi10d=420
+# Calculamos la probabilidad de que entren menos de 180 y más de 420 personas en un día (24 horas)
+pi.2400d1=ppois(xi10c,lambda=mu8,lower.tail=TRUE)
+pi.2400d2=1-(ppois(xi10d,lambda=mu8,lower.tail=TRUE))
+pi.2400d=pi.2400d1+pi.2400d2
+pi.2400d
+```
+1
+
+
+# Ejercicios a resolver ronda 2
+
+## Ejercicio 1
+
+En las últimas 5 olimpiadas de las últimas 2 décadas México ganó, en promedio por evento, 9 medallas de oro, Estados Unidos 30 y Canadá 19. Partiendo de estas frecuencias promedio responda las siguientes preguntas:
+
+
+1. Que México gane 5 medallas de oro o más en las siguientes olimpiadas
+2. Que México gane, a lo mucho, de 3 medallas de oro
+Respuesta 1:
+```{r R1E11}
+mu9=9
+xi11=5
+# Calculamos la probabilidad de que México gane 5 medallas o más en las siguientes olimpiadas.
+pi.5=ppois(xi11,lambda=mu9,lower.tail=FALSE)
+pi.5*100 
+```
+88.43095
+
+Respuesta 2:
+```{r R2E11}
+mu9=9
+xi11a=0
+xi11b=3
+# Calculamos la probabilidad de que Mexico gane en las siguientes olimpiadas al menos 3 medallas de oro
+pi.5c1=ppois(xi11a,lambda=mu9,lower.tail=TRUE)
+pi.5c2=ppois(xi11b,lambda=mu9,lower.tail=TRUE)
+pi.5c=pi.5c2-pi.5c1
+pi.5c
+```
+0.02110308
+
+
+## Ejercicio 2
+
+1. Que Estados Unidos gane 10 medallas de oro o menos
+```{r R1E12}
+mu10=30
+xi12=10
+# Calculamos la probabilidad de que Estados Unidos gane al menos 10 medallas de oro o menos en las siguientes olimpiadas.
+pi.10=ppois(xi12,lambda=mu10,lower.tail=TRUE)
+pi.10*100 
+```
+0.002234878
+
+2. Que Canadá gane, al menos, 13 medallas de oro
+```{r R2E12}
+mu11=19
+xi13a=0
+xi13b=13
+# Calculamos la probabilidad de que Canada gane en las siguientes olimpiadas al menos 13  medallas de oro
+pi.19c1=ppois(xi13a,lambda=mu11,lower.tail=TRUE)
+pi.19c2=ppois(xi13b,lambda=mu11,lower.tail=TRUE)
+pi.19c=pi.19c2-pi.19c1
+pi.19c
+```
+0.09839877
+
+## Ejercicio 3
+
+1. Que el bloque de Norte América gane entre 30 y 60 medallas de oro
+2. Que el bloque de Norte América gane ya sea menos de 20 medallas de oro o más de 40
+
+Respuesta 1:
+```{r R1E13}
+mu12=59
+xi14a=30
+xi14b=60
+# Calculamos la probabilidad de que el bloque de Norte América gane entre 30 y 60 medallas de oro
+pi.3060c1=ppois(xi14a,lambda=mu12,lower.tail=TRUE)
+pi.3060c2=ppois(xi14b,lambda=mu12,lower.tail=TRUE)
+pi.3060c=pi.3060c2-pi.3060c1
+pi.3060c
+```
+0.5855269
+
+Resultados 2
+```{r R2E13}
+mu12=59
+xi14c=20
+xi14d=40
+# Calculamos la probabilidad de el bloque de Norte América gane ya sea menos de 20 medallas de oro o más de 40
+pi.3060d1=ppois(xi14c,lambda=mu12,lower.tail=TRUE)
+pi.3060d2=1-(ppois(xi14d,lambda=mu12,lower.tail=TRUE))
+pi.3060d=pi.3060d1+pi.3060d2
+pi.3060d
+```
+0.994318
+
+# Ejercicios a resolver ronda 3
+
+Una aseguradora debe indemnizar autos color rojo que sufren pérdida total en un accidente. Esto si la propietaria o propietario tiene una póliza con dicha compañía. En el transcurso del año pasado, los coches rojos fueron los más siniestrados (como sucede en la mayoría de las aseguradoras) y el número de unidades promedio mensual que se indemnizó fue de 500 coches. Esto con un valor promedio de $200,000.00 por siniestro.
+
+La aseguradora debe tener reservas suficientes para hacer frente a estos pagos potenciales. Por favor, responda las siguientes preguntas:
+
+1. ¿Cuál es la probabilidad de que, en 6 meses, la aseguradora pague menos de 1,500 siniestros?
+```{r R1E14}
+mu14=3000
+xi16a=1499
+# Calculamos la probabilidad de que, en 6 meses, la aseguradora pague menos de 1,500 siniestro
+pi.3000=ppois(xi16a,lambda=mu14,lower.tail=TRUE)
+pi.3000*100 
+```
+1.304768e-200
+
+2. ¿Cuál es la probabilidad de que, en 3 meses, la aseguradora pague, al menos 1,500 siniestros?
+```{r R2E14}
+mu15=1500
+xi17a=0
+xi17b=1500
+# Calculamos la probabilidad de que, en 3 meses, la aseguradora pague al menos 1,500 siniestro
+pi.1500c1=ppois(xi17a,lambda=mu15,lower.tail=TRUE)
+pi.1500c2=ppois(xi17b,lambda=mu15,lower.tail=TRUE)
+pi.1500c=pi.1500c2-pi.1500c1
+pi.1500c
+```
+0.5068665
+
+3. ¿Cuál es la probabilidad de que, en 1 año, deba pagar $1'200,000.00 en indemnizaciones?
+```{r R3E14}
+mu16=(6000*200000)
+xi18=1200000
+# Calculamos la probabilidad de que, en 1 año, deba pagar $1'200,000.00 en indemnizaciones
+pi.1200000=dpois(xi18,mu16)
+pi.1200000*100
+```
+0
+
+
+4. (Razonamiento, acuda a las notas o a su investigación en Internet para responder) ¿Diga cuántos accidentes podría llegar a pagar en un mes con un 95% de probabilidad de suceso?
+```{r R4E14}
+ps=0.95
+fm=500
+qpois(ps,fm)
+
+```
+537
+
+5. (Razonamiento, acuda a las notas o a su investigación en Internet para responder)) ¿Diga cuántos siniestros podría llegar a pagar en 2 meses con un 98% de probabilidad de suceso?
+```{r R5E14}
+ps1=0.98
+fm1=1000
+qpois(ps1,fm1)
+
+```
+1065
+
+6. Con un 98% de probabilidad de suceso ¿Cuánto monto en siniestros llegaría a pagar en 1 mes?
+```{r R6E14}
+ps2=0.98
+fm2=500
+pagar=qpois(ps2,fm2)
+pago1mes=(pagar*200000)
+pago1mes
+
+```
+$109,200,000.00
